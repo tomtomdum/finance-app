@@ -2,9 +2,12 @@ export default function Dashboard() {
   return (
     <section className="space-y-8">
       <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/20 backdrop-blur-xl">
-        <h1 className="text-4xl font-semibold tracking-tight text-white">Dashboard</h1>
+        <h1 className="text-4xl font-semibold tracking-tight text-white">
+          Dashboard
+        </h1>
         <p className="max-w-2xl text-slate-300">
-          This is your dashboard overview. Add widgets, cards, and financial charts here to build your app.
+          This is your dashboard overview. Add widgets, cards, and financial
+          charts here to build your app.
         </p>
       </div>
 
