@@ -1,9 +1,5 @@
-import { Card } from "@/components/ui/card"
+import { DashboardServer } from "@/components/features/dashboard/DashboardServer"
 
 export default function Dashboard() {
-  return (
-    <main className="container mx-auto p-4">
-      <Card className="glass-card" />
-    </main>
-  )
+  return <DashboardServer />
 }
