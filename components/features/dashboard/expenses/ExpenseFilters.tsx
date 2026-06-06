@@ -42,7 +42,7 @@ export function ExpenseFilters({
     filters.maxAmount
 
   return (
-    <div className="space-y-4 rounded-lg border bg-card p-4">
+    <div className="glass-card">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold">Filtres</h3>
         {hasActiveFilters && (

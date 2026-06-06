@@ -77,7 +77,7 @@ export function DashboardClient({ initialExpenses }: DashboardClientProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="glass-card flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Tableau de bord</h1>
           <p className="text-muted-foreground">Suivi de vos dépenses</p>

@@ -12,9 +12,9 @@ export default function Page() {
   ]
 
   return (
-    <main className="container mx-auto p-4">
+    <main className=" container mx-auto p-4">
       <Tabs defaultValue="/">
-        <TabsList>
+        <TabsList className="glass-card border-b-2 mb-4">
           <TabsTrigger value="/">Accueil</TabsTrigger>
           <TabsTrigger value="/crypto">Crypto</TabsTrigger>
         </TabsList>

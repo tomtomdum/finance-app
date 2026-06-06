@@ -53,7 +53,7 @@ export function PriceChartWithTimeRange({
   }
 
   return (
-    <div className="relative rounded-lg border bg-card p-6">
+    <div className="relative bg-card p-6">
       <div className="absolute left-6 top-6 flex gap-2 z-10">
         {(Object.keys(TIME_RANGE_CONFIG) as TimeRange[]).map((range) => (
           <Button
