@@ -47,12 +47,15 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ─────────────────────────────────────────
+   LIGHT MODE TOKENS
+───────────────────────────────────────── */
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
+  --card: transparent;
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --popover: transparent;
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
@@ -80,14 +83,31 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Glass primitive values — light */
+  --glass-bg-start: rgba(255, 255, 255, 0.72);
+  --glass-bg-end: rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --glass-specular: rgba(255, 255, 255, 0.95);
+  --glass-shadow: rgba(100, 120, 200, 0.12);
+  --glass-blur: blur(28px) saturate(200%) brightness(1.08);
+  --glass-prism-a: rgba(100, 180, 255, 0.12);
+  --glass-prism-b: rgba(180, 100, 255, 0.08);
+  --glass-prism-c: rgba(255, 200, 100, 0.06);
+  --glass-prism-d: rgba(100, 255, 180, 0.1);
+  --glass-text: rgba(0, 0, 0, 0.88);
+  --glass-text-muted: rgba(0, 0, 0, 0.5);
 }
 
+/* ─────────────────────────────────────────
+   DARK MODE TOKENS
+───────────────────────────────────────── */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: transparent;
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: transparent;
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
@@ -114,8 +134,25 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Glass primitive values — dark */
+  --glass-bg-start: rgba(255, 255, 255, 0.18);
+  --glass-bg-end: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-specular: rgba(255, 255, 255, 0.5);
+  --glass-shadow: rgba(0, 0, 0, 0.5);
+  --glass-blur: blur(32px) saturate(180%) brightness(1.15);
+  --glass-prism-a: rgba(80, 160, 255, 0.18);
+  --glass-prism-b: rgba(160, 80, 255, 0.12);
+  --glass-prism-c: rgba(255, 160, 80, 0.08);
+  --glass-prism-d: rgba(80, 255, 160, 0.12);
+  --glass-text: rgba(255, 255, 255, 0.92);
+  --glass-text-muted: rgba(255, 255, 255, 0.5);
 }
 
+/* ─────────────────────────────────────────
+   PAGE BACKGROUND
+───────────────────────────────────────── */
 @layer base {
   body {
     background:
@@ -130,24 +167,28 @@
         transparent 35%
       ),
       linear-gradient(135deg, rgb(10, 12, 20), rgb(15, 20, 35), rgb(8, 10, 18));
-
     background-attachment: fixed;
   }
 }
 
+/* ─────────────────────────────────────────
+   LIQUID GLASS UTILITIES
+───────────────────────────────────────── */
 @utility glass {
-  background: rgba(255, 255, 255, 0.08);
-
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-
-  border: 1px solid rgba(255, 255, 255, 0.15);
-
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-start) 0%,
+    var(--glass-bg-end) 100%
+  );
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
   box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 1.5px 1.5px var(--glass-specular),
     inset 0 -1px 1px rgba(255, 255, 255, 0.05),
-    0 8px 32px rgba(0, 0, 0, 0.25);
-
+    inset 1px 0 1px rgba(255, 255, 255, 0.12),
+    0 8px 32px var(--glass-shadow),
+    0 2px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -158,15 +199,65 @@
 
 @utility glass-button {
   @apply glass rounded-2xl px-5 py-2;
+  box-shadow:
+    inset 0 1.5px 1px var(--glass-specular),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+    0 2px 10px var(--glass-shadow);
+  color: var(--glass-text);
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
 }
 
 @utility glass-input {
   @apply glass rounded-2xl;
+  box-shadow:
+    inset 0 1.5px 1px var(--glass-specular),
+    inset 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 @utility glass-text {
-  background: linear-gradient(135deg, white, rgb(180, 220, 255));
-
+  background: linear-gradient(135deg, white 0%, rgb(180, 220, 255) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
+}
+
+/* ─────────────────────────────────────────
+   GLASS PSEUDO-ELEMENTS
+───────────────────────────────────────── */
+@layer utilities {
+  .glass::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--glass-specular) 25%,
+      var(--glass-specular) 75%,
+      transparent 100%
+    );
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      115deg,
+      var(--glass-prism-a) 0%,
+      var(--glass-prism-b) 25%,
+      transparent 45%,
+      var(--glass-prism-c) 65%,
+      var(--glass-prism-d) 85%,
+      transparent 100%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+  }
 }

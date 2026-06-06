@@ -98,7 +98,7 @@ export function DashboardContent({ initialExpenses }: DashboardContentProps) {
         }
       />
 
-      <Card className="glass-card p-6">
+      <Card className="glass-card border-0 bg-transparent p-6 shadow-none">
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h2 className="text-xl font-semibold">Dépenses</h2>

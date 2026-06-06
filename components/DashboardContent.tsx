@@ -3,9 +3,9 @@
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExpensesTable, type Expense } from "./expenses/ExpensesTable"
-import { ExpenseForm } from "./expenses/ExpenseForm"
-import { ExpenseFilters, type FilterState } from "./expenses/ExpenseFilters"
+import { ExpensesTable, type Expense } from "@/components/ExpensesTable"
+import { ExpenseForm } from "@/components/ExpenseForm"
+import { ExpenseFilters, type FilterState } from "@/components/ExpenseFilters"
 import {
   Dialog,
   DialogContent,
@@ -16,11 +16,11 @@ import {
 } from "@/components/ui/dialog"
 import { Plus, AlertCircle } from "lucide-react"
 
-interface DashboardClientProps {
+interface DashboardContentProps {
   initialExpenses: Expense[]
 }
 
-export function DashboardClient({ initialExpenses }: DashboardClientProps) {
+export function DashboardContent({ initialExpenses }: DashboardContentProps) {
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingExpense, setEditingExpense] = useState<Expense | undefined>()
@@ -54,6 +54,7 @@ export function DashboardClient({ initialExpenses }: DashboardClientProps) {
 
   const handleAddExpense = (expense: Expense) => {
     setExpenses([...expenses, expense])
+    setIsDialogOpen(false)
   }
 
   const handleUpdateExpense = (updatedExpense: Expense) => {
@@ -61,6 +62,7 @@ export function DashboardClient({ initialExpenses }: DashboardClientProps) {
       expenses.map((e) => (e.id === updatedExpense.id ? updatedExpense : e))
     )
     setEditingExpense(undefined)
+    setIsDialogOpen(false)
   }
 
   const handleDeleteExpense = (id: string) => {
@@ -73,52 +75,15 @@ export function DashboardClient({ initialExpenses }: DashboardClientProps) {
     setIsDialogOpen(true)
   }
 
+  const handleOpenDialog = () => {
+    setEditingExpense(undefined)
+    setIsDialogOpen(true)
+  }
+
   const totalAmount = filteredExpenses.reduce((sum, e) => sum + e.amount, 0)
 
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Tableau de bord</h1>
-          <p className="text-muted-foreground">Suivi de vos dépenses</p>
-        </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="gap-2">
-              <Plus className="h-4 w-4" />
-              Ajouter une dépense
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>
-                {editingExpense ? "Éditer une dépense" : "Ajouter une dépense"}
-              </DialogTitle>
-              <DialogDescription>
-                {editingExpense
-                  ? "Mettez à jour les détails de votre dépense"
-                  : "Enregistrez une nouvelle dépense"}
-              </DialogDescription>
-            </DialogHeader>
-            <ExpenseForm
-              expense={editingExpense}
-              onSubmit={(newExpense) => {
-                if (editingExpense) {
-                  handleUpdateExpense(newExpense)
-                } else {
-                  handleAddExpense(newExpense)
-                }
-                setIsDialogOpen(false)
-              }}
-              onCancel={() => {
-                setIsDialogOpen(false)
-                setEditingExpense(undefined)
-              }}
-            />
-          </DialogContent>
-        </Dialog>
-      </div>
-
+    <div className="space-y-6">
       <ExpenseFilters
         filters={filters}
         onFilterChange={setFilters}
@@ -142,14 +107,43 @@ export function DashboardClient({ initialExpenses }: DashboardClientProps) {
               {filteredExpenses.length !== 1 ? "s" : ""}
             </p>
           </div>
-          <div className="text-right">
-            <p className="text-sm text-muted-foreground">Total</p>
-            <p className="text-2xl font-bold">
-              {new Intl.NumberFormat("fr-FR", {
-                style: "currency",
-                currency: "EUR",
-              }).format(totalAmount)}
-            </p>
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <p className="text-sm text-muted-foreground">Total</p>
+              <p className="text-2xl font-bold">
+                {new Intl.NumberFormat("fr-FR", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(totalAmount)}
+              </p>
+            </div>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button onClick={handleOpenDialog} size="sm">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Ajouter
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>
+                    {editingExpense ? "Modifier" : "Ajouter"} une dépense
+                  </DialogTitle>
+                  <DialogDescription>
+                    {editingExpense
+                      ? "Modifiez les détails de la dépense"
+                      : "Ajoutez une nouvelle dépense à votre suivi"}
+                  </DialogDescription>
+                </DialogHeader>
+                <ExpenseForm
+                  expense={editingExpense}
+                  onSubmit={
+                    editingExpense ? handleUpdateExpense : handleAddExpense
+                  }
+                  onCancel={() => setIsDialogOpen(false)}
+                />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
@@ -187,6 +181,6 @@ export function DashboardClient({ initialExpenses }: DashboardClientProps) {
           onDelete={(id) => setDeleteConfirm(id)}
         />
       </Card>
-    </>
+    </div>
   )
 }
