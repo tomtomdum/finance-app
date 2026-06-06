@@ -1,5 +1,7 @@
+import { CryptoServer } from "@/components/features/crypto/CryptoServer"
 import Dashboard from "./features/dashboard"
 import MyButton from "@/components/test"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function Page() {
   const person = { name: "John Doe", age: 30 }
@@ -11,8 +13,18 @@ export default function Page() {
 
   return (
     <main className="container mx-auto p-4">
-      <Dashboard />
-      <MyButton person={person} poulet="Chicken" products={products} />
+      <Tabs defaultValue="/">
+        <TabsList>
+          <TabsTrigger value="/">Accueil</TabsTrigger>
+          <TabsTrigger value="/crypto">Crypto</TabsTrigger>
+        </TabsList>
+        <TabsContent value="/">
+          <Dashboard />
+        </TabsContent>
+        <TabsContent value="/crypto">
+          <CryptoServer />
+        </TabsContent>
+      </Tabs>
     </main>
   )
 }

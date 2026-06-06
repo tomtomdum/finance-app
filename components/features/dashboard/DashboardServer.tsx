@@ -1,5 +1,4 @@
 import { DashboardClient } from "./DashboardClient"
-import { PriceChartWithTimeRange } from "@/components/shared/PriceChartWithTimeRange"
 import type { Expense } from "./expenses/ExpensesTable"
 import { getMarketChart } from "@/lib/services/cryptoService"
 
@@ -38,33 +37,9 @@ async function getInitialExpenses(): Promise<Expense[]> {
 
 export async function DashboardServer() {
   const initialExpenses = await getInitialExpenses()
-  const btcChart = await getMarketChart("bitcoin", "usd", 30)
-  const ethChart = await getMarketChart("ethereum", "usd", 30)
 
   return (
     <main className="container mx-auto space-y-6 p-4">
-      <div>
-        <h1 className="text-3xl font-bold">Tableau de bord</h1>
-        <p className="text-muted-foreground">
-          Suivi de vos dépenses et cryptomonnaies
-        </p>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <PriceChartWithTimeRange
-          initialData={btcChart}
-          label="Bitcoin"
-          title="Bitcoin Price Chart"
-          coinId="bitcoin"
-        />
-        <PriceChartWithTimeRange
-          initialData={ethChart}
-          label="Ethereum"
-          title="Ethereum Price Chart"
-          coinId="ethereum"
-        />
-      </div>
-
       <DashboardClient initialExpenses={initialExpenses} />
     </main>
   )

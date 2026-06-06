@@ -152,7 +152,7 @@
 
 /* ─────────────────────────────────────────
    PAGE BACKGROUND
-───────────────────────────────────────── */
+   ───────────────────────────────────────── */
 @layer base {
   body {
     background:
@@ -166,8 +166,8 @@
         rgba(255, 0, 153, 0.15),
         transparent 35%
       ),
-      linear-gradient(135deg, rgb(10, 12, 20), rgb(15, 20, 35), rgb(8, 10, 18));
-    background-attachment: fixed;
+      linear-gradient(135deg, rgb(10, 12, 20), rgb(15, 20, 35), rgb(8, 10, 18)) !important;
+    background-attachment: fixed !important;
   }
 }
 
