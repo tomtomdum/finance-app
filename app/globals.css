@@ -167,7 +167,7 @@
         transparent 35%
       ),
       linear-gradient(135deg, rgb(10, 12, 20), rgb(15, 20, 35), rgb(8, 10, 18)) !important;
-    background-attachment: fixed !
+    background-attachment: fixed;
   }
 }
 
