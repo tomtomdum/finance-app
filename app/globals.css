@@ -179,16 +179,16 @@
     135deg,
     var(--glass-bg-start) 0%,
     var(--glass-bg-end) 100%
-  );
+  ) !important;
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--glass-border) !important;
   box-shadow:
     inset 0 1.5px 1.5px var(--glass-specular),
     inset 0 -1px 1px rgba(255, 255, 255, 0.05),
     inset 1px 0 1px rgba(255, 255, 255, 0.12),
     0 8px 32px var(--glass-shadow),
-    0 2px 6px rgba(0, 0, 0, 0.1);
+    0 2px 6px rgba(0, 0, 0, 0.1) !important;
   position: relative;
   overflow: hidden;
 }
@@ -203,7 +203,7 @@
     inset 0 1.5px 1px var(--glass-specular),
     inset 0 -1px 0 rgba(0, 0, 0, 0.06),
     0 2px 10px var(--glass-shadow);
-  color: var(--glass-text);
+  color: var(--glass-text) !important;
   font-weight: 600;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
 }
@@ -212,14 +212,43 @@
   @apply glass rounded-2xl;
   box-shadow:
     inset 0 1.5px 1px var(--glass-specular),
-    inset 0 2px 6px rgba(0, 0, 0, 0.06);
+    inset 0 2px 6px rgba(0, 0, 0, 0.06) !important;
 }
 
 @utility glass-text {
   background: linear-gradient(135deg, white 0%, rgb(180, 220, 255) 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+  color: transparent !important;
+}
+@utility glass-dialog {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  ) !important;
+
+  .dark & {
+    background: linear-gradient(
+      135deg,
+      rgba(15, 20, 35, 0.85) 0%,
+      rgba(10, 12, 20, 0.6) 100%
+    ) !important;
+  }
+
+  backdrop-filter: blur(24px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+
+  /* Bordure fine et éclatante style "glass" */
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+
+  /* Ombres internes pour l'effet d'épaisseur du verre liquide */
+  box-shadow:
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.3),
+    0 20px 50px rgba(0, 0, 0, 0.3) !important;
+
+  border-radius: var(--radius-3xl) !important;
+  overflow: hidden;
 }
 
 /* ─────────────────────────────────────────
