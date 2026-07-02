@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import { describe } from "node:test"
+import { getMarketChart } from "./cryptoService"
 
 const addnums = (n1: number, n2: number) => {
   return n1 + n2
@@ -8,5 +8,48 @@ const addnums = (n1: number, n2: number) => {
 describe("addnums", () => {
   it("should add two numbers correctly", () => {
     expect(addnums(1, 1)).toBe(2)
+  })
+})
+
+describe("get crypto data", () => {
+  beforeEach(() => {
+    jest.restoreAllMocks()
+    global.fetch = jest.fn()
+  })
+  it("returns data successfully on a 200 OK response", async () => {
+    // Fake data that mimics what CoinGecko returns
+    const mockData = {
+      market_caps: [[1719922200000, 1200000]],
+      prices: [[1719922200000, 62000]],
+      total_volumes: [[1719922200000, 300000]],
+    }
+    global.fetch = jest.fn()
+    // 2. Hijack the global fetch and force it to resolve successfully
+    jest.spyOn(global, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => mockData,
+    } as Response)
+
+    const res = await getMarketChart("bitcoin", "usd", 1)
+
+    expect(res).toEqual(mockData)
+  })
+
+  it("500 server response", async () => {
+    // Fake data that mimics what CoinGecko returns
+    const mockData = {}
+    const statusCode = 500
+
+    // 2. Hijack the global fetch and force it to resolve successfully
+    jest.spyOn(global, "fetch").mockResolvedValue({
+      ok: false,
+      json: async () => mockData,
+      status: statusCode,
+      statusText: "Internal Server Error",
+    } as Response)
+
+    await expect(getMarketChart("bitcoin", "usd", 1)).rejects.toThrow(
+      `CoinGecko Market Chart API error: ${statusCode} Internal Server Error`
+    )
   })
 })

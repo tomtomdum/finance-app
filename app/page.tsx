@@ -1,6 +1,6 @@
 import { CryptoServer } from "@/components/features/crypto/CryptoServer"
 import Dashboard from "./features/dashboard"
-import MyButton from "@/components/test"
+import MyButton from "@/components/cossin"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { SpendingTrackerFeature } from "@/components/features/spending-tracker/spending-tracker-feature"
 
