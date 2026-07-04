@@ -53,3 +53,43 @@ describe("get crypto data", () => {
     )
   })
 })
+
+async function donnerUnBurger(n: number): Promise<string> {
+  if (n < 0) {
+    throw new Error("Erreur lors de la commande du burger")
+  }
+  return "🍔"
+}
+
+describe("calculatePriceChange", () => {
+  it("detect numbers <= 0", () => {
+    expect(donnerUnBurger(-1)).rejects.toThrow(
+      "Erreur lors de la commande du burger"
+    )
+  })
+})
+
+const calculatePriceChange = (
+  purchasePrice: number,
+  currentPrice: number
+): number => {
+  if (purchasePrice <= 0) {
+    throw new Error("Le prix d'achat doit être supérieur à 0")
+  }
+
+  const change = ((currentPrice - purchasePrice) / purchasePrice) * 100
+
+  // Arrondi propre à 2 décimales
+  return Math.round(change * 100) / 100
+}
+
+describe("calculatePriceChange", () => {
+  it("detect numbers <= 0", () => {
+    const t = () => calculatePriceChange(0, 50)
+    expect(t).toThrow("Le prix d'achat doit être supérieur à 0")
+  })
+  it("calculates price change correctly", () => {
+    const t = calculatePriceChange(100, 50)
+    expect(t).toBe(-50)
+  })
+})
