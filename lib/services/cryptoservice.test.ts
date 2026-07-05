@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import { getMarketChart } from "./cryptoService"
+import { getUserEmail } from "./allo"
 
 const addnums = (n1: number, n2: number) => {
   return n1 + n2
@@ -91,5 +92,22 @@ describe("calculatePriceChange", () => {
   it("calculates price change correctly", () => {
     const t = calculatePriceChange(100, 50)
     expect(t).toBe(-50)
+  })
+})
+
+describe("getUserEmail", () => {
+  beforeEach(() => {
+    jest.restoreAllMocks()
+    global.fetch = jest.fn()
+  })
+  it("should return the user's email", async () => {
+    const mockeddata = { email: "john.doe@example.com" }
+    jest.spyOn(global, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => mockeddata,
+      status: 200,
+    } as Response)
+    const call = await getUserEmail(1)
+    expect(call).toEqual(mockeddata.email.toLowerCase())
   })
 })

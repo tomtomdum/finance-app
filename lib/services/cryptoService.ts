@@ -53,17 +53,12 @@ export async function getMarketChart(
     x_cg_demo_api_key: API_KEY,
   })
 
-  const res = await fetch(
-    `${MARKET_CHART_API_URL}/${id}/market_chart?${params}`,
-    {
-      next: { revalidate: 3600 }, // Cache for 1 hour (ISR)
-    }
-  )
+  const res = await fetch(`${MARKET_CHART_API_URL}/${id}/market_chart?${params}`, {
+    next: { revalidate: 3600 }, // Cache for 1 hour (ISR)
+  })
 
   if (!res.ok) {
-    throw new Error(
-      `CoinGecko Market Chart API error: ${res.status} ${res.statusText}`
-    )
+    throw new Error(`CoinGecko Market Chart API error: ${res.status} ${res.statusText}`)
   }
 
   return res.json()
